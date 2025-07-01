@@ -1,6 +1,6 @@
 const CityBlock = () => {
   return (
-    <section className="border border-gray-300 flex flex-col p-6">
+    <section className="border border-gray-300 flex flex-col p-6 w-full md:w-1/3 rounded-lg shadow-md">
       <section className="flex justify-between p-2">
         <section className="flex flex-col gap-2">
           <p className="font-bold"> New York, NY</p>
