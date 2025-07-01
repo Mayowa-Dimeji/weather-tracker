@@ -1,20 +1,27 @@
-import { useLocation } from "react-router";
 const CityBlock = ({
-  city = "London, UK",
+  city = "London",
+  country = "United Kingdom",
   description = "sunny",
-  image = "https://img.icons8.com/?size=100&id=aWBc8fucFZnx&format=png&color=000000",
+  iconCode = "10d",
   temp = 25,
   visibility = 10,
   humidity = 60,
   wind = 15,
   pressure = 1013,
+
+  regionCode = "UK",
 }: any) => {
   return (
     <section className="border border-gray-300 dark:border-gray-500 flex flex-col p-6 w-full md:w-1/3 rounded-lg shadow-md dark:bg-gray-600/50">
       <section className="flex justify-between p-2">
         <section className="flex flex-col gap-2">
-          <p className="font-bold">{city}</p>
-          <p>Today, time</p>
+          <p className="font-bold">
+            {city}, {country}
+            <br />
+            {regionCode}
+          </p>
+          {/* time instead */}
+          <p>Today, {new Date().toLocaleDateString()}</p>
         </section>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +39,10 @@ const CityBlock = ({
 
       {/* weather info */}
       <section className="flex flex-col justify-center items-center gap-2">
-        <img src={image} alt="sunny" />
+        <img
+          src={`https://openweathermap.org/img/wn/${iconCode}@2x.png`}
+          alt="sunny"
+        />
         <p>{temp}°C</p>
         <p>{description}</p>
       </section>

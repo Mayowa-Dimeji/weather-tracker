@@ -1,10 +1,14 @@
 import type { Route } from "./+types/home";
 import MyNavBar from "~/pages/navbar/myNavBar";
 import SearchBar from "~/pages/searchBar/search";
-import CityDisplay from "~/pages/city-display/city-display";
+
 import AirHistory from "~/pages/air-history/air-history";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import CityBlock from "~/pages/city-display/cityblock";
+import CityMap from "~/pages/city-display/cityMap";
+
+import { useCity } from "~/context/cityContext";
+
 import axios from "axios";
 
 const WEATHER_KEY = import.meta.env.VITE_OPENWEATHER_KEY;
@@ -16,12 +20,12 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const { state } = useLocation();
   const [weatherData, setWeatherData] = useState<any>(null);
+  const { selectedCity } = useCity();
 
-  // fetch open from openweather API
+  // fetch weather data when selectedCity changes
   useEffect(() => {
-    if (!state?.lat || !state?.lng) return;
+    if (!selectedCity?.lat || !selectedCity?.lng) return;
 
     const fetchWeather = async () => {
       try {
@@ -29,8 +33,8 @@ export default function Home() {
           "https://api.openweathermap.org/data/3.0/onecall",
           {
             params: {
-              lat: state.lat,
-              lon: state.lng,
+              lat: selectedCity.lat,
+              lon: selectedCity.lng,
               units: "metric",
               exclude: "minutely,alerts",
               appid: WEATHER_KEY,
@@ -40,17 +44,32 @@ export default function Home() {
 
         setWeatherData(res.data);
       } catch (err) {
-        console.error("Weather fetch error:", err);
+        console.error("Error fetching weather data:", err);
       }
     };
 
     fetchWeather();
-  }, [state]);
+  }, [selectedCity]);
+
   return (
     <section className="pb-1  ">
       <MyNavBar />
       <SearchBar />
-      <CityDisplay />
+      <section className="city-display flex flex-col md:flex-row gap-4 p-8 justify-center">
+        <CityBlock
+          city={selectedCity?.city}
+          country={selectedCity?.country}
+          regionCode={selectedCity?.region}
+          description={weatherData?.current?.weather[0]?.description}
+          iconCode={weatherData?.current?.weather[0]?.icon}
+          temp={weatherData?.current?.temp}
+          visibility={weatherData?.current?.visibility}
+          humidity={weatherData?.current?.humidity}
+          wind={weatherData?.current?.wind_speed}
+          pressure={weatherData?.current?.pressure}
+        />
+        <CityMap />
+      </section>
       <AirHistory />
     </section>
   );
