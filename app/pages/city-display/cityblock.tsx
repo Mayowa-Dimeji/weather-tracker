@@ -1,9 +1,19 @@
-const CityBlock = () => {
+import { useLocation } from "react-router";
+const CityBlock = ({
+  city = "London, UK",
+  description = "sunny",
+  image = "https://img.icons8.com/?size=100&id=aWBc8fucFZnx&format=png&color=000000",
+  temp = 25,
+  visibility = 10,
+  humidity = 60,
+  wind = 15,
+  pressure = 1013,
+}: any) => {
   return (
-    <section className="border border-gray-300 flex flex-col p-6 w-full md:w-1/3 rounded-lg shadow-md">
+    <section className="border border-gray-300 dark:border-gray-500 flex flex-col p-6 w-full md:w-1/3 rounded-lg shadow-md dark:bg-gray-600/50">
       <section className="flex justify-between p-2">
         <section className="flex flex-col gap-2">
-          <p className="font-bold"> New York, NY</p>
+          <p className="font-bold">{city}</p>
           <p>Today, time</p>
         </section>
         <svg
@@ -22,33 +32,30 @@ const CityBlock = () => {
 
       {/* weather info */}
       <section className="flex flex-col justify-center items-center gap-2">
-        <img
-          src="https://img.icons8.com/?size=100&id=aWBc8fucFZnx&format=png&color=000000"
-          alt="sunny"
-        />
-        <p>25°C</p>
-        <p>sunny</p>
+        <img src={image} alt="sunny" />
+        <p>{temp}°C</p>
+        <p>{description}</p>
       </section>
       {/* visibility and humidity */}
       <section className="flex justify-between p-2">
         <section className="flex flex-col">
           <p>Visibility</p>
-          <p className="font-bold">10 km</p>
+          <p className="font-bold">{visibility} km</p>
         </section>
         <section className="flex flex-col">
           <p>Humidity</p>
-          <p className="font-bold">60%</p>
+          <p className="font-bold">{humidity}%</p>
         </section>
       </section>
       {/* wind and pressure */}
       <section className="flex justify-between p-2">
         <section className="flex flex-col">
           <p>Wind</p>
-          <p className="font-bold">15 km/h</p>
+          <p className="font-bold">{wind} km/h</p>
         </section>
         <section className="flex flex-col">
           <p>Pressure</p>
-          <p className="font-bold">1013 hPa</p>
+          <p className="font-bold">{pressure} hPa</p>
         </section>
       </section>
     </section>
