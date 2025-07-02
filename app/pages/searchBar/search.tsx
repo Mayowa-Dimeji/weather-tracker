@@ -65,7 +65,7 @@ const SearchBar = () => {
   };
 
   return (
-    <section className="flex items-center justify-center p-8">
+    <section className="flex items-center justify-center p-8 ">
       <section className="flex flex-col items-center relative w-full max-w-md">
         <input
           type="text"
@@ -76,7 +76,7 @@ const SearchBar = () => {
           }}
           onKeyDown={handleEnterKey}
           value={query}
-          className="absolute border border-gray-300 dark:border-gray-500 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="absolute border border-gray-300 dark:border-gray-500 dark:bg-gray-800 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         {suggestions.length > 0 && (
           <ul className="absolute w-full top-full mt-11 bg-gray-50 dark:bg-gray-700/95 border border-gray-200 rounded-sm shadow-md z-10">
@@ -84,7 +84,7 @@ const SearchBar = () => {
               <li
                 key={city.id}
                 onClick={() => handleSelect(city)}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100 hover:dark:bg-gray-500"
               >
                 {city.city}, {city.regionCode} ({city.countryCode})
               </li>

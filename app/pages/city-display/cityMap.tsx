@@ -23,7 +23,7 @@ const CityMap = ({ lat = 51.5074, lng = -0.1276, zoom = 8 }) => {
   }, [lat, lng, zoom]);
 
   return (
-    <section className="border border-gray-300 dark:border-gray-500 flex flex-col rounded-lg w-full md:w-2/3 object-contain p-2">
+    <section className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-600/50 flex flex-col rounded-lg w-full md:w-2/3 object-contain p-2">
       <section className="map-header items-center flex p-2 text-center md:text-left">
         <h2 className="font-bold">City Map</h2>
       </section>

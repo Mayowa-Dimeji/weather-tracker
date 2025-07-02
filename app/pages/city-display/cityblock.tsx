@@ -12,7 +12,7 @@ const CityBlock = ({
   regionCode = "UK",
 }: any) => {
   return (
-    <section className="border border-gray-300 dark:border-gray-500 flex flex-col p-6 w-full md:w-1/3 rounded-lg shadow-md dark:bg-gray-600/50">
+    <section className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-600/50 flex flex-col p-6 w-full md:w-1/3 rounded-lg shadow-md ">
       <section className="flex justify-between p-2">
         <section className="flex flex-col gap-2">
           <p className="font-bold">

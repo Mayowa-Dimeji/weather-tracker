@@ -5,9 +5,9 @@ const AirQualityHistory = ({ hourly, daily }: any) => {
   const [view, setView] = useState<"hourly" | "daily">("hourly");
 
   return (
-    <section className="border border-gray-300 dark:border-gray-500 flex flex-col p-6 w-full md:w-2/3 rounded-lg shadow-md">
+    <section className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-600/50 flex flex-col w-full md:w-2/3 rounded-lg shadow-md">
       {/* horly,7day and historical header */}
-      <section className="flex gap-4 shadow-sm">
+      <section className="flex gap-4  ">
         <p
           onClick={() => setView("hourly")}
           className={`cursor-pointer font-medium p-4 ${

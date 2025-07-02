@@ -1,6 +1,6 @@
 const MyNavBar = () => {
   return (
-    <section className="flex justify-between items-center p-8 shadow-sm ">
+    <section className="flex justify-between items-center p-8 shadow-sm bg-gray-50 dark:bg-gray-600/50">
       <section className="flex items-center gap-2">
         <img
           src="https://img.icons8.com/?size=100&id=1AfLv3KbfVba&format=png&color=000000"

@@ -1,7 +1,7 @@
 import ProgressBar from "./progressBar";
 const AirQuality = ({ description = "Good", qualityIndex = 20 }: any) => {
   return (
-    <section className="border border-gray-300 dark:border-gray-500 flex flex-col w-full md:w-1/3  rounded-lg shadow-md">
+    <section className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-600/50 flex flex-col w-full md:w-1/3  rounded-lg shadow-md">
       <section className="header-quality shadow-sm flex justify-between p-4">
         <h2 className="font-bold">Air Quality</h2>
       </section>
@@ -13,11 +13,11 @@ const AirQuality = ({ description = "Good", qualityIndex = 20 }: any) => {
             height="200"
             viewBox="0 0 48 48"
             className="size-10 border-0"
-            fill="green"
+            fill="blue"
           >
             <path
               stroke="#000"
-              stroke-width="1"
+              strokeWidth={1}
               d="M24 33C28.9706 33 33 28.9706 33 24C33 19.0294 28.9706 15 24 15C19.0294 15 15 19.0294 15 24C15 28.9706 19.0294 33 24 33Z"
             />
           </svg>

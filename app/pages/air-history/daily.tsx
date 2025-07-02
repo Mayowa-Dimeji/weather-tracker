@@ -20,75 +20,108 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const SevenDayChart = ({ daily }: any) => {
-  const [dayChart, setDayChart] = useState({});
+
+interface DailyForecast {
+  dt: number;
+  temp: {
+    min: number;
+    max: number;
+  };
+}
+
+interface SevenDayChartProps {
+  daily: DailyForecast[];
+}
+
+const SevenDayChart = ({ daily = [] }: SevenDayChartProps) => {
+  const [chartData, setChartData] = useState<any>(null);
   const [chartType, setChartType] = useState<"line" | "bar">("line");
 
   useEffect(() => {
-    if (daily) {
-      setDayChart(buildDailyChart(daily));
+    if (daily.length > 0) {
+      const labels = daily.map((d) =>
+        new Date(d.dt * 1000).toLocaleDateString("en-GB", { weekday: "short" })
+      );
+
+      const maxTemps = daily.map((d) => d.temp.max);
+      const minTemps = daily.map((d) => d.temp.min);
+
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: "Max Temp (°C)",
+            data: maxTemps,
+            backgroundColor: "rgba(16, 185, 129, 0.5)",
+            borderColor: "rgba(16, 185, 129, 1)",
+            fill: chartType === "line",
+            tension: 0.4,
+          },
+          {
+            label: "Min Temp (°C)",
+            data: minTemps,
+            backgroundColor: "rgba(239, 68, 68, 0.5)",
+            borderColor: "rgba(239, 68, 68, 1)",
+            fill: chartType === "line",
+            tension: 0.4,
+          },
+        ],
+      });
     }
-  }, [daily]);
+  }, [daily, chartType]);
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        ticks: {
+          callback: (value: string | number) => `${value}°C`,
+        },
+      },
+    },
+  };
 
   return (
-    <section className="p-4 bg-white rounded-lg shadow space-y-4">
-      <div className="flex gap-4 mb-2">
-        <p
+    <section className="p-4  rounded-lg shadow space-y-4">
+      <div className="flex justify-end gap-4 mb-2">
+        <button
           onClick={() => setChartType("line")}
-          className={`cursor-pointer px-3 py-1 rounded-md text-sm font-medium ${
+          className={`px-3 py-1 rounded-md text-sm font-medium ${
             chartType === "line"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-gray-700"
           }`}
         >
           Line
-        </p>
-        <p
+        </button>
+        <button
           onClick={() => setChartType("bar")}
-          className={`cursor-pointer px-3 py-1 rounded-md text-sm font-medium ${
+          className={`px-3 py-1 rounded-md text-sm font-medium ${
             chartType === "bar"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-gray-700"
           }`}
         >
           Bar
-        </p>
+        </button>
       </div>
 
-      <h2 className="text-lg font-semibold">7-Day Forecast</h2>
+      <h2 className="text-lg font-semibold text-center">7-Day Forecast</h2>
 
-      {chartType === "line" ? (
-        <Line data={dayChart as any} options={{ responsive: true }} />
-      ) : (
-        <Bar data={dayChart as any} options={{ responsive: true }} />
-      )}
+      <div className="">
+        {chartData ? (
+          chartType === "line" ? (
+            <Line data={chartData} options={options} />
+          ) : (
+            <Bar data={chartData} options={options} />
+          )
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </section>
   );
 };
-
-// helper
-function buildDailyChart(daily: any[]) {
-  return {
-    labels: daily.map((d) =>
-      new Date(d.dt * 1000).toLocaleDateString("en-GB", { weekday: "short" })
-    ),
-    datasets: [
-      {
-        label: "Max Temp (°C)",
-        data: daily.map((d) => d.temp.max),
-        backgroundColor: "rgba(16, 185, 129, 0.5)", // Tailwind green-500
-        borderColor: "rgba(16, 185, 129, 1)",
-        tension: 0.4,
-      },
-      {
-        label: "Min Temp (°C)",
-        data: daily.map((d) => d.temp.min),
-        backgroundColor: "rgba(239, 68, 68, 0.5)", // Tailwind red-500
-        borderColor: "rgba(239, 68, 68, 1)",
-        tension: 0.4,
-      },
-    ],
-  };
-}
 
 export default SevenDayChart;
