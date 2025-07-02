@@ -20,7 +20,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const SevenDayChart = ({ daily = [1, 2, 3, 4, 5, 6, 7] }: any) => {
+const SevenDayChart = ({ daily }: any) => {
   const [dayChart, setDayChart] = useState({});
   const [chartType, setChartType] = useState<"line" | "bar">("line");
 

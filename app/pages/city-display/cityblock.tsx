@@ -17,8 +17,6 @@ const CityBlock = ({
         <section className="flex flex-col gap-2">
           <p className="font-bold">
             {city}, {country}
-            <br />
-            {regionCode}
           </p>
           {/* time instead */}
           <p>Today, {new Date().toLocaleDateString()}</p>

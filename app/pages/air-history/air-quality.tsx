@@ -28,7 +28,7 @@ const AirQuality = ({ description = "Good", qualityIndex = 20 }: any) => {
 
         <ProgressBar value={qualityIndex} />
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Air Quality is satisfactory for most people
+          Air Quality is {description}, as declared for most people
         </p>
       </section>
     </section>

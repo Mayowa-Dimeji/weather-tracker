@@ -12,6 +12,7 @@ import { useCity } from "~/context/cityContext";
 import axios from "axios";
 
 const WEATHER_KEY = import.meta.env.VITE_OPENWEATHER_KEY;
+console.log("API Key:", WEATHER_KEY);
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Weather Tracker App" },
@@ -29,27 +30,24 @@ export default function Home() {
 
     const fetchWeather = async () => {
       try {
-        const res = await axios.get(
-          "https://api.openweathermap.org/data/3.0/onecall",
-          {
-            params: {
-              lat: selectedCity.lat,
-              lon: selectedCity.lng,
-              units: "metric",
-              exclude: "minutely,alerts",
-              appid: WEATHER_KEY,
-            },
-          }
+        const response = await fetch(
+          `https://api.openweathermap.org/data/3.0/onecall?lat=${selectedCity.lat}&lon=${selectedCity.lng}&units=metric&exclude=minutely,alerts&appid=${WEATHER_KEY}`
         );
 
-        setWeatherData(res.data);
+        if (!response.ok) {
+          throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setWeatherData(data);
+        console.log("Weather data fetched:", data);
       } catch (err) {
         console.error("Error fetching weather data:", err);
       }
     };
 
     fetchWeather();
-  }, [selectedCity]);
+  }, [selectedCity, weatherData]);
 
   return (
     <section className="pb-1  ">
@@ -68,9 +66,14 @@ export default function Home() {
           wind={weatherData?.current?.wind_speed}
           pressure={weatherData?.current?.pressure}
         />
-        <CityMap />
+        <CityMap lat={selectedCity?.lat} lng={selectedCity?.lng} />
       </section>
-      <AirHistory />
+      <AirHistory
+        description={weatherData?.current?.weather[0]?.description}
+        qualityIndex={weatherData?.current?.air_quality?.index}
+        daily={weatherData?.daily}
+        hourly={weatherData?.hourly}
+      />
     </section>
   );
 }

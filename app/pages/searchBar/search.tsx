@@ -76,7 +76,7 @@ const SearchBar = () => {
           }}
           onKeyDown={handleEnterKey}
           value={query}
-          className=" border border-gray-300 dark:border-gray-500 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="absolute border border-gray-300 dark:border-gray-500 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         {suggestions.length > 0 && (
           <ul className="absolute w-full top-full mt-11 bg-gray-50 dark:bg-gray-700/95 border border-gray-200 rounded-sm shadow-md z-10">
