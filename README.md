@@ -1,87 +1,98 @@
-# Welcome to React Router!
+# 🌦️ WeatherTracker
 
-A modern, production-ready template for building full-stack React applications using React Router.
+A sleek and responsive weather dashboard built with **React**, **React Router**, **Tailwind CSS**, **Chart.js**, and data from **GeoDB** and **OpenWeather APIs**. Search for any city and get up-to-date hourly and 7-day forecasts, including map visualizations, temperature charts, and more — with full support for dark mode.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+---
 
-## Features
+## 🔍 Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- 🔎 **City Search Autocomplete** (powered by GeoDB API)
+- 📍 **Live Weather Data** (OpenWeather One Call API 3.0)
+- 🧭 **Location-based Forecasts** (lat/lon from GeoDB)
+- 🌡️ **Hourly & 7-Day Forecast Charts** (Chart.js line/bar toggle)
+- 🗺️ **City Map Preview**
+- 🌫️ **Air Quality Section**
+- 🌗 **Dark Mode Support**
+- 💾 **Global Context for Selected City** (no localStorage)
 
-## Getting Started
+---
 
-### Installation
+## 📸 Screenshots
 
-Install the dependencies:
+> Light Mode  
+> ![WeatherTracker Light Mode](public/assets/lightmode.png)
+
+> Dark Mode  
+> ![WeatherTracker Dark Mode](public/assets/darkmode.png)
+
+---
+
+## 🧠 Tech Stack
+
+- **Framework**: React + React Router
+- **Styling**: Tailwind CSS
+- **Charts**: Chart.js
+- **API Services**:
+  - [GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)
+  - [OpenWeather One Call API](https://openweathermap.org/api/one-call-3)
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/Mayowa-Dimeji/weather-tracker.git
+cd weather-tracker
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### Development
+### 3. Set up your `.env`
 
-Start the development server with HMR:
+Create a `.env` file and add your API keys:
+
+```env
+VITE_GEODB_API_KEY=your_geodb_api_key
+VITE_OPENWEATHER_KEY=your_openweather_api_key
+```
+
+### 4. Run the app
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+---
 
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+## 📁 Project Structure
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+/app
+  ├─ /context           # City context (selected city state)
+  ├─ /pages             # Page components (search, forecast, map, air-quality)
+  ├─ /routes            # App routing setup
+  ├─ /assets            # Image & chart assets
+  └─ App.tsx            # Main app entry
 ```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
 
 ---
 
-Built with ❤️ using React Router.
+## ✨ Future Improvements
+
+- ✅ Add favorites or history
+- 🌍 Add multi-language / unit conversion
+- 📲 Make PWA installable
+- ⚠️ Add error boundaries and offline fallback
+
+---
+
+## 🧑‍💻 Author
+
+Made with ❤️ by **Mayowa Oladimeji**  
+[Portfolio](https://my-portfolio-gamma-bay-50.vercel.app/) • [GitHub](https://github.com/Mayowa-Dimeji/weather-tracker.git) •
