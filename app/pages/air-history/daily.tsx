@@ -111,7 +111,7 @@ const SevenDayChart = ({ daily = [] }: SevenDayChartProps) => {
         </div>
       </section>
 
-      <div className="bg-gradient-to-b from-white via-gray-50 to-white rounded-lg p-4">
+      <div className="bg-gray-50 dark:bg-gray-500 rounded-lg p-4">
         {chartData ? (
           chartType === "line" ? (
             <Line data={chartData} options={options} />
