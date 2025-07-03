@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { useEffect, useState } from "react";
+// Example data import, replace with actual data source
 
 ChartJS.register(
   CategoryScale,
@@ -25,21 +26,7 @@ interface HourlyIconBarProps {
   hourly: any[];
 }
 
-const HourlyIconBar = ({
-  hourly = Array.from({ length: 12 }, (_, i) => {
-    var dt = Math.floor(Date.now() / 1000) + i * 3600;
-    return {
-      dt,
-      temp: 20 + Math.floor(Math.random() * 6),
-      weather: [
-        {
-          icon: "01d",
-          description: "Clear sky",
-        },
-      ],
-    };
-  }),
-}: HourlyIconBarProps) => {
+const HourlyIconBar = ({ hourly = [] }: HourlyIconBarProps) => {
   const [chartData, setChartData] = useState<any>(null);
   const [chartType, setChartType] = useState<"line" | "bar">("line");
 
@@ -89,7 +76,7 @@ const HourlyIconBar = ({
   };
 
   return (
-    <section className="p-4  rounded-lg  shadow">
+    <section className="p-4  rounded-lg  shadow space-y-4">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-lg font-bold">Hourly Forecast</h2>
         <div className="flex justify-end gap-4 mb-2">
@@ -111,16 +98,17 @@ const HourlyIconBar = ({
           </button>
         </div>
       </div>
-
-      {chartData ? (
-        chartType === "line" ? (
-          <Line data={chartData} options={options} />
+      <div className="bg-gradient-to-b from-white via-gray-50 to-white rounded-lg p-4">
+        {chartData ? (
+          chartType === "line" ? (
+            <Line data={chartData} options={options} />
+          ) : (
+            <Bar data={chartData} options={options} />
+          )
         ) : (
-          <Bar data={chartData} options={options} />
-        )
-      ) : (
-        <p>Loading...</p>
-      )}
+          <p>Loading...</p>
+        )}
+      </div>
 
       <div className="flex justify-between items-center mt-4 px-2">
         {hourly.slice(0, 12).map((hour: any) => (

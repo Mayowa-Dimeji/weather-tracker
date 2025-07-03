@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { useEffect, useState } from "react";
+// Example data import, replace with actual data source
 
 ChartJS.register(
   CategoryScale,
@@ -33,18 +34,7 @@ interface SevenDayChartProps {
   daily: DailyForecast[];
 }
 
-const SevenDayChart = ({
-  daily = Array.from({ length: 7 }, (_, i) => {
-    const dt = Math.floor(Date.now() / 1000) + i * 86400;
-    return {
-      dt,
-      temp: {
-        min: 15 + Math.floor(Math.random() * 5), // 15–20°C
-        max: 25 + Math.floor(Math.random() * 5), // 25–30°C
-      },
-    };
-  }),
-}: SevenDayChartProps) => {
+const SevenDayChart = ({ daily = [] }: SevenDayChartProps) => {
   const [chartData, setChartData] = useState<any>(null);
   const [chartType, setChartType] = useState<"line" | "bar">("line");
 
@@ -95,7 +85,7 @@ const SevenDayChart = ({
 
   return (
     <section className="p-4  rounded-lg shadow space-y-4">
-      <section className="flex items-center justify-between mb-4">
+      <section className="flex items-center justify-between mb-2">
         <h2 className="text-lg font-semibold text-center">7-Day Forecast</h2>
         <div className="flex justify-end gap-4 mb-2">
           <button
@@ -121,7 +111,7 @@ const SevenDayChart = ({
         </div>
       </section>
 
-      <div className="">
+      <div className="bg-gradient-to-b from-white via-gray-50 to-white rounded-lg p-4">
         {chartData ? (
           chartType === "line" ? (
             <Line data={chartData} options={options} />

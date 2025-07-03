@@ -1,0 +1,32 @@
+[
+  {
+    "dt": 1720000000,
+    "temp": 22,
+    "weather": [{ "icon": "10d", "description": "light rain" }]
+  },
+  {
+    "dt": 1720003600,
+    "temp": 23,
+    "weather": [{ "icon": "04d", "description": "broken clouds" }]
+  },
+  {
+    "dt": 1720007200,
+    "temp": 25,
+    "weather": [{ "icon": "01d", "description": "clear sky" }]
+  },
+  {
+    "dt": 1720010800,
+    "temp": 27,
+    "weather": [{ "icon": "01d", "description": "clear sky" }]
+  },
+  {
+    "dt": 1720014400,
+    "temp": 26,
+    "weather": [{ "icon": "02d", "description": "few clouds" }]
+  },
+  {
+    "dt": 1720018000,
+    "temp": 24,
+    "weather": [{ "icon": "03d", "description": "scattered clouds" }]
+  }
+]

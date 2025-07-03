@@ -1,7 +1,9 @@
 import { useState } from "react";
 import HourlyIconBar from "./hourly";
 import SevenDayChart from "./daily";
-const AirQualityHistory = ({ hourly, daily }: any) => {
+import myDaily from "./dummydaily.json";
+import myHourly from "./dummyhourly.json";
+const AirQualityHistory = ({ hourly = myHourly, daily = myDaily }: any) => {
   const [view, setView] = useState<"hourly" | "daily">("hourly");
 
   return (
