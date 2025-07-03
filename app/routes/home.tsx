@@ -12,7 +12,7 @@ import { useCity } from "~/context/cityContext";
 import axios from "axios";
 
 const WEATHER_KEY = import.meta.env.VITE_OPENWEATHER_KEY;
-console.log("API Key:", WEATHER_KEY);
+
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Weather Tracker App" },

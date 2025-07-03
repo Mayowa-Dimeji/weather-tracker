@@ -25,7 +25,21 @@ interface HourlyIconBarProps {
   hourly: any[];
 }
 
-const HourlyIconBar = ({ hourly = [] }: HourlyIconBarProps) => {
+const HourlyIconBar = ({
+  hourly = Array.from({ length: 12 }, (_, i) => {
+    var dt = Math.floor(Date.now() / 1000) + i * 3600;
+    return {
+      dt,
+      temp: 20 + Math.floor(Math.random() * 6),
+      weather: [
+        {
+          icon: "01d",
+          description: "Clear sky",
+        },
+      ],
+    };
+  }),
+}: HourlyIconBarProps) => {
   const [chartData, setChartData] = useState<any>(null);
   const [chartType, setChartType] = useState<"line" | "bar">("line");
 
@@ -75,13 +89,13 @@ const HourlyIconBar = ({ hourly = [] }: HourlyIconBarProps) => {
   };
 
   return (
-    <section className="p-4 w-full rounded-lg  shadow-md">
+    <section className="p-4  rounded-lg  shadow">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-lg font-bold">Hourly Forecast</h2>
-        <div className="flex gap-2">
+        <div className="flex justify-end gap-4 mb-2">
           <button
             onClick={() => setChartType("line")}
-            className={`px-2 py-1 text-sm rounded ${
+            className={`px-3 py-1 text-sm rounded ${
               chartType === "line" ? "bg-blue-500 text-white" : "bg-gray-200"
             }`}
           >
@@ -89,7 +103,7 @@ const HourlyIconBar = ({ hourly = [] }: HourlyIconBarProps) => {
           </button>
           <button
             onClick={() => setChartType("bar")}
-            className={`px-2 py-1 text-sm rounded ${
+            className={`px-3 py-1 text-sm rounded ${
               chartType === "bar" ? "bg-blue-500 text-white" : "bg-gray-200"
             }`}
           >

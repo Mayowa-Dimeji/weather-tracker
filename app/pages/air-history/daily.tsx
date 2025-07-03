@@ -33,7 +33,18 @@ interface SevenDayChartProps {
   daily: DailyForecast[];
 }
 
-const SevenDayChart = ({ daily = [] }: SevenDayChartProps) => {
+const SevenDayChart = ({
+  daily = Array.from({ length: 7 }, (_, i) => {
+    const dt = Math.floor(Date.now() / 1000) + i * 86400;
+    return {
+      dt,
+      temp: {
+        min: 15 + Math.floor(Math.random() * 5), // 15–20°C
+        max: 25 + Math.floor(Math.random() * 5), // 25–30°C
+      },
+    };
+  }),
+}: SevenDayChartProps) => {
   const [chartData, setChartData] = useState<any>(null);
   const [chartType, setChartType] = useState<"line" | "bar">("line");
 
@@ -84,30 +95,31 @@ const SevenDayChart = ({ daily = [] }: SevenDayChartProps) => {
 
   return (
     <section className="p-4  rounded-lg shadow space-y-4">
-      <div className="flex justify-end gap-4 mb-2">
-        <button
-          onClick={() => setChartType("line")}
-          className={`px-3 py-1 rounded-md text-sm font-medium ${
-            chartType === "line"
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
-        >
-          Line
-        </button>
-        <button
-          onClick={() => setChartType("bar")}
-          className={`px-3 py-1 rounded-md text-sm font-medium ${
-            chartType === "bar"
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
-        >
-          Bar
-        </button>
-      </div>
-
-      <h2 className="text-lg font-semibold text-center">7-Day Forecast</h2>
+      <section className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-center">7-Day Forecast</h2>
+        <div className="flex justify-end gap-4 mb-2">
+          <button
+            onClick={() => setChartType("line")}
+            className={`px-3 py-1 rounded text-sm font-medium ${
+              chartType === "line"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            Line
+          </button>
+          <button
+            onClick={() => setChartType("bar")}
+            className={`px-3 py-1 rounded text-sm font-medium ${
+              chartType === "bar"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            Bar
+          </button>
+        </div>
+      </section>
 
       <div className="">
         {chartData ? (
