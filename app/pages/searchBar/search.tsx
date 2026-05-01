@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { useNavigate } from "react-router"; // ✅ useRouter should use 'react-router-dom'
+import { useState, useRef } from "react";
 import type { City } from "~/context/cityContext";
-import { useCity } from "~/context/cityContext"; // ✅ correct import
-import axios from "axios";
+import { useCity } from "~/context/cityContext";
 
-const GEO_API_HOST = "wft-geo-db.p.rapidapi.com";
-const GEO_API_KEY = import.meta.env.VITE_GEODB_API_KEY;
+// In-memory cache survives for the lifetime of the page session.
+// Repeated searches for the same prefix never hit the network again.
+const searchCache = new Map<string, any[]>();
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<any[]>([]); // ✅ better typing
-  const { selectedCity, setSelectedCity } = useCity(); // ✅ use context
-  const navigate = useNavigate();
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const { setSelectedCity } = useCity();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const fetchSuggestions = async (input: string) => {
     if (input.length < 2) {
@@ -19,22 +18,28 @@ const SearchBar = () => {
       return;
     }
 
+    const cacheKey = input.toLowerCase();
+    const cached = searchCache.get(cacheKey);
+    if (cached) {
+      setSuggestions(cached);
+      return;
+    }
+
     try {
-      const res = await axios.get(`https://${GEO_API_HOST}/v1/geo/cities`, {
-        params: {
-          namePrefix: input,
-          limit: 5,
-          sort: "-population",
-        },
-        headers: {
-          "X-RapidAPI-Key": GEO_API_KEY,
-          "X-RapidAPI-Host": GEO_API_HOST,
-        },
-      });
-      setSuggestions(res.data.data);
+      const res = await fetch(`/api/cities?q=${encodeURIComponent(input)}`);
+      const json = await res.json();
+      const cities: any[] = json.data ?? [];
+      searchCache.set(cacheKey, cities);
+      setSuggestions(cities);
     } catch (error) {
       console.error("Error fetching city suggestions:", error);
     }
+  };
+
+  const handleInput = (value: string) => {
+    setQuery(value);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchSuggestions(value), 300);
   };
 
   const handleSelect = (cityObj: any) => {
@@ -48,10 +53,7 @@ const SearchBar = () => {
 
     setQuery(`${selected.city}, ${selected.country}`);
     setSuggestions([]);
-    setSelectedCity(selected); // ✅ update context
-
-    // ✅ Optional: navigate to location if you're using route-based rendering
-    // navigate(`/location/${selected.city}`);
+    setSelectedCity(selected);
   };
 
   const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,20 +62,13 @@ const SearchBar = () => {
     }
   };
 
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
-
   return (
     <section className="flex items-center justify-center p-8 ">
       <section className="flex flex-col items-center relative w-full max-w-md">
         <input
           type="text"
           placeholder="Search..."
-          onChange={(e) => {
-            setQuery(e.target.value);
-            fetchSuggestions(e.target.value);
-          }}
+          onChange={(e) => handleInput(e.target.value)}
           onKeyDown={handleEnterKey}
           value={query}
           className="absolute border border-gray-300 dark:border-gray-500 dark:bg-gray-800 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-800 dark:text-gray-200 focus:bg-white focus:dark:bg-gray-500"
