@@ -2,11 +2,10 @@ import type { Route } from "./+types/home";
 import MyNavBar from "~/pages/navbar/myNavBar";
 import SearchBar from "~/pages/searchBar/search";
 import AirHistory from "~/pages/air-history/air-history";
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useEffect, useState } from "react";
 import CityBlock from "~/pages/city-display/cityblock";
+import CityMap from "~/pages/city-display/cityMap";
 import { useCity } from "~/context/cityContext";
-
-const CityMap = lazy(() => import("~/pages/city-display/cityMap"));
 
 const WEATHER_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
@@ -91,13 +90,7 @@ export default function Home() {
           wind={weatherData?.current?.wind_speed}
           pressure={weatherData?.current?.pressure}
         />
-        <Suspense
-          fallback={
-            <div className="border border-gray-300 dark:border-gray-500 rounded-lg w-full md:w-2/3 h-64 md:h-96 animate-pulse bg-gray-100 dark:bg-gray-700" />
-          }
-        >
-          <CityMap lat={selectedCity?.lat} lng={selectedCity?.lng} />
-        </Suspense>
+        <CityMap lat={selectedCity?.lat} lng={selectedCity?.lng} />
       </section>
       <AirHistory
         description={weatherData?.current?.weather[0]?.description}

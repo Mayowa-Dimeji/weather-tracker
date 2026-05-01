@@ -1,26 +1,17 @@
-import { useRef, useEffect, use } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
-console.log("Mapbox token:", import.meta.env.VITE_MAPBOX_TOKEN);
+interface CityMapProps {
+  lat?: number;
+  lng?: number;
+  zoom?: number;
+}
 
-const CityMap = ({ lat = 51.5074, lng = -0.1276, zoom = 8 }) => {
-  const mapContainer = useRef(null);
+const CityMap = ({ lat, lng, zoom = 10 }: CityMapProps) => {
+  const hasCoords = lat != null && lng != null;
 
-  useEffect(() => {
-    if (!mapContainer.current) return;
-
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
-      center: [lng, lat],
-      zoom: zoom,
-    });
-    return () => {
-      map.remove();
-    };
-  }, [lat, lng, zoom]);
+  const src = hasCoords
+    ? `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/${lng},${lat},${zoom}/600x400@2x?access_token=${MAPBOX_TOKEN}`
+    : null;
 
   return (
     <section className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-600/50 flex flex-col rounded-lg w-full md:w-2/3 object-contain p-2">
@@ -28,10 +19,18 @@ const CityMap = ({ lat = 51.5074, lng = -0.1276, zoom = 8 }) => {
         <h2 className="font-bold">City Map</h2>
       </section>
 
-      <section
-        ref={mapContainer}
-        className="map-container w-full h-64 md:h-96 rounded-md shadow-md object-contain"
-      ></section>
+      {src ? (
+        <img
+          src={src}
+          alt="City map"
+          loading="lazy"
+          className="w-full h-64 md:h-96 rounded-md shadow-md object-cover"
+        />
+      ) : (
+        <div className="w-full h-64 md:h-96 rounded-md flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">
+          Search for a city to see the map
+        </div>
+      )}
     </section>
   );
 };
