@@ -1,8 +1,6 @@
-import type { Route } from "./+types/api.cities";
-
 const GEO_API_HOST = "wft-geo-db.p.rapidapi.com";
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request }: { request: Request }) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q") ?? "";
 
@@ -10,7 +8,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     return Response.json({ data: [] });
   }
 
-  const key = process.env.GEODB_API_KEY;
+  const key = import.meta.env.VITE_GEODB_API_KEY;
   if (!key) {
     return Response.json({ error: "Server misconfiguration" }, { status: 500 });
   }

@@ -1,6 +1,4 @@
-import type { Route } from "./+types/api.weather";
-
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request }: { request: Request }) {
   const url = new URL(request.url);
   const lat = url.searchParams.get("lat");
   const lon = url.searchParams.get("lon");
@@ -9,7 +7,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     return Response.json({ error: "Missing lat/lon" }, { status: 400 });
   }
 
-  const key = process.env.OPENWEATHER_KEY;
+  const key = import.meta.env.VITE_OPENWEATHER_KEY;
   if (!key) {
     return Response.json({ error: "Server misconfiguration" }, { status: 500 });
   }
